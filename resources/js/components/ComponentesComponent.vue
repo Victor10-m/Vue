@@ -23,15 +23,13 @@ export default {
         
         data(){
             return{
-                pensamientos: [{
-                    'id': 1,
-                    'Descripcion': 'abc',
-                    'fecha': '02/04/20'
-                }]
+                pensamientos: []
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            axios.get('/pensamientos').then((response) => {
+                this.pensamientos = response.data;
+            });
         
     },
 

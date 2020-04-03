@@ -1931,15 +1931,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      pensamientos: [{
-        'id': 1,
-        'Descripcion': 'abc',
-        'fecha': '02/04/20'
-      }]
+      pensamientos: []
     };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this = this;
+
+    axios.get('/pensamientos').then(function (response) {
+      _this.pensamientos = response.data;
+    });
   },
   methods: {
     addPensamiento: function addPensamiento(pensamiento) {
@@ -1994,13 +1994,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     newPensamiento: function newPensamiento() {
-      var pensamiento = {
-        id: 2,
-        Descripcion: this.Descripcion,
-        fecha: '125487'
+      var _this = this;
+
+      var params = {
+        Descripcion: this.Descripcion
       };
-      this.$emit('new', pensamiento);
       this.Descripcion = '';
+      axios.post('/pensamientos', params).then(function (response) {
+        var pensamiento = response.data;
+
+        _this.$emit('new', pensamiento);
+      });
     }
   }
 });
@@ -2048,14 +2052,27 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onClickDelete: function onClickDelete() {
-      this.$emit('delete');
+      var _this = this;
+
+      axios["delete"]("/pensamientos/".concat(this.pensamiento.id)).then(function () {
+        _this.$emit('delete');
+      });
     },
     onClickUpdate: function onClickUpdate() {
       this.updateMode = true;
     },
     onClickEditar: function onClickEditar() {
-      this.updateMode = false;
-      this.$emit('Editar', pensamiento);
+      var _this2 = this;
+
+      var params = {
+        Descripcion: this.pensamiento.descripcion
+      };
+      axios.put("/pensamientos/".concat(this.pensamiento.id), params).then(function (response) {
+        _this2.updateMode = false;
+        var pensamiento = response.data;
+
+        _this2.$emit('Editar', pensamiento);
+      });
     }
   }
 });
@@ -37563,7 +37580,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("Publicado  " + _vm._s(_vm.pensamiento.fecha))
+      _vm._v("Publicado  " + _vm._s(_vm.pensamiento.created_at))
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
@@ -37573,23 +37590,23 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.pensamiento.Descripcion,
-                expression: "pensamiento.Descripcion"
+                value: _vm.pensamiento.descripcion,
+                expression: "pensamiento.descripcion"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "text" },
-            domProps: { value: _vm.pensamiento.Descripcion },
+            domProps: { value: _vm.pensamiento.descripcion },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.pensamiento, "Descripcion", $event.target.value)
+                _vm.$set(_vm.pensamiento, "descripcion", $event.target.value)
               }
             }
           })
-        : _c("p", [_vm._v("  " + _vm._s(_vm.pensamiento.Descripcion) + " ")])
+        : _c("p", [_vm._v("  " + _vm._s(_vm.pensamiento.descripcion) + " ")])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-footer" }, [
@@ -49927,15 +49944,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************!*\
   !*** ./resources/js/components/FormComponent.vue ***!
   \***************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FormComponent_vue_vue_type_template_id_b1dd1884___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=template&id=b1dd1884& */ "./resources/js/components/FormComponent.vue?vue&type=template&id=b1dd1884&");
 /* harmony import */ var _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/FormComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _FormComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -49965,7 +49981,7 @@ component.options.__file = "resources/js/components/FormComponent.vue"
 /*!****************************************************************************!*\
   !*** ./resources/js/components/FormComponent.vue?vue&type=script&lang=js& ***!
   \****************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -2,11 +2,11 @@
 <template>
 
             <div class="card">
-               <div class="card-header">Publicado  {{pensamiento.fecha}}</div>
+               <div class="card-header">Publicado  {{pensamiento.created_at}}</div>
                 <div class="card-body">
 
-                    <input v-if="updateMode" type="text" class="form-control" v-model="pensamiento.Descripcion" >
-                    <p v-else>  {{pensamiento.Descripcion}} </p>
+                    <input v-if="updateMode" type="text" class="form-control" v-model="pensamiento.descripcion" >
+                    <p v-else>  {{pensamiento.descripcion}} </p>
                     
 
                 </div>    
@@ -31,14 +31,23 @@
         },
         methods: {
             onClickDelete() {
+                axios.delete(`/pensamientos/${this.pensamiento.id}`).then(() =>{
                 this.$emit('delete');
+                });
             },
             onClickUpdate() {
                 this.updateMode = true; 
             },
             onClickEditar() {
+                const params = {
+                    Descripcion: this.pensamiento.descripcion
+                };
+                axios.put(`/pensamientos/${this.pensamiento.id}`, params).then((response) =>{
                 this.updateMode = false;
+                const pensamiento = response.data; 
                 this.$emit('Editar', pensamiento);
+                })
+
             }
         }
     }

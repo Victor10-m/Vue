@@ -31,13 +31,18 @@ export default {
 
         methods: {
         newPensamiento(){
-            let pensamiento={
-                id:2,
-                Descripcion: this.Descripcion,
-                fecha:'125487'
-            }
-        this.$emit('new', pensamiento);
-        this.Descripcion='';
+            const params = {
+                Descripcion: this.Descripcion
+            };
+
+            this.Descripcion = '';
+            axios.post('/pensamientos', params)
+            .then((response) => {
+                const pensamiento = response.data;       
+                this.$emit('new', pensamiento);
+                
+            });
+
        
     }
 }
